@@ -20,6 +20,7 @@ def create_app():
 
     # 将db注册到app中
     db.init_app(app)
+    casbin_auth.init_auth(app)
 
     # 注册蓝图
     register_blueprint(app)

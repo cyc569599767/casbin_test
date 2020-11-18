@@ -103,4 +103,4 @@ class CasbinAdapter(persist.Adapter):
 
     def __del__(self):
         with self.app.app_context():
-            db.session.close(0)
+            db.session.close()
