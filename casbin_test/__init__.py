@@ -3,13 +3,31 @@ __author__ = 'yaco'
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
+import casbin
+
+class Auth:
+    def __init__(self):
+        self.enforcer = None
+
+    def init_auth(self, app):
+        from casbin_test.auth.casbin_adapter import CasbinAdapter
+
+        adapter = CasbinAdapter(app)
+        file_path = os.path.join(os.getcwd(),'casbin_test','auth','policy.conf')
+        enforcer = casbin.Enforcer(file_path, adapter)
+        self.enforcer = enforcer
+        self.enforcer.auto_save = True
+
 
 db = SQLAlchemy()
+casbin_auth = Auth()
 
-from .test01.models import *
-from .user.models import *
+# 必须写在这里,在 db 下方,否则引起循环导入
+from models import *
 from .test01 import test01
 from .user import user_bp
+from .auth import auth_bp
 
 
 def create_app():
@@ -36,3 +54,4 @@ def register_blueprint(app):
     """
     app.register_blueprint(user_bp)
     app.register_blueprint(test01)
+    app.register_blueprint(auth_bp)

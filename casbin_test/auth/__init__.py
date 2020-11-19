@@ -1,16 +1,15 @@
 # _*_ coding: utf-8 _*_
 __author__ = 'yaco'
 
-from  .casbin_adapter import CasbinAdapter
-import os
-import casbin
+from flask import Blueprint
+from flask_restful import Api
+from .views import Authorities
 
 
-class Auth:
-    def __init__(self):
-        self.enforcer = None
+# 创建蓝图对象,管理资源
+auth_bp = Blueprint('auth', __name__)
+# 蓝图遵循 restful 风格
+auth_api = Api(auth_bp)
 
-    def init_auth(self,app):
-        adapter = CasbinAdapter(app)
-        enforcer = casbin.Enforcer("policy.conf",adapter)
-        self.enforcer = enforcer
+# 配置路由和接口类的对应关系
+auth_api.add_resource(Authorities, "/authorities")
