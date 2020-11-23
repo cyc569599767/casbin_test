@@ -8,6 +8,8 @@ class BaseConfig(object):
     # SESSION_PERMANENT = True  # 如果设置为False，则关闭浏览器session就失效。
     # SESSION_USE_SIGNER = False  # 是否对发送到浏览器上 session:cookie值进行加密
 
+    SECRET_KEY = "yaco"
+
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123456@47.105.178.93:3306/casbin_test?charset=utf8"
     SQLALCHEMY_POOL_SIZE = 5
     SQLALCHEMY_POOL_TIMEOUT = 30

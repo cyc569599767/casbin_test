@@ -3,31 +3,32 @@ __author__ = 'yaco'
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
 import casbin
+import os
+from flask_login import LoginManager
 
-class Auth:
-    def __init__(self):
-        self.enforcer = None
-
-    def init_auth(self, app):
-        from casbin_test.auth.casbin_adapter import CasbinAdapter
-
-        adapter = CasbinAdapter(app)
-        file_path = os.path.join(os.getcwd(),'casbin_test','auth','policy.conf')
-        enforcer = casbin.Enforcer(file_path, adapter)
-        self.enforcer = enforcer
-        self.enforcer.auto_save = True
-
+model_file_path = os.path.join(os.getcwd(),'casbin_test','auth','casbinmodel.conf')
+policy_file_path = os.path.join(os.getcwd(),'casbin_test','auth','policy.csv')
+enforcer = casbin.Enforcer(model_file_path, policy_file_path)
 
 db = SQLAlchemy()
-casbin_auth = Auth()
 
 # 必须写在这里,在 db 下方,否则引起循环导入
 from models import *
 from .test01 import test01
 from .user import user_bp
 from .auth import auth_bp
+
+# 登录认证
+login_manager = LoginManager()
+login_manager.login_message = u"对不起,您还没有登录"
+login_manager.login_message_category = "info"
+login_manager.anonymous_user = AnonymousUser
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
 
 
 def create_app():
@@ -38,10 +39,12 @@ def create_app():
 
     # 将db注册到app中
     db.init_app(app)
-    casbin_auth.init_auth(app)
 
     # 注册蓝图
     register_blueprint(app)
+
+    # 登录认证
+    login_manager.init_app(app)
 
     return app
 

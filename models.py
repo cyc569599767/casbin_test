@@ -1,6 +1,8 @@
 # _*_ coding: utf-8 _*_
 __author__ = 'yaco'
 
+from flask_login import AnonymousUserMixin
+
 from casbin_test import db
 
 
@@ -12,9 +14,18 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    is_active = db.Column(db.Boolean, default=False, index=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+    def get_id(self):
+        return self.id
+
+
+class AnonymousUser(AnonymousUserMixin):
+    username = "anonymoususer"
 
 
 class Permission(db.Model):
