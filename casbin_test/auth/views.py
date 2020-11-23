@@ -45,7 +45,7 @@ class Authorities(Resource):
 
         return user_role_list
 
-    # @check_permission
+    @check_permission
     def post(self):
         """
         权限管理, 负责新增/删除/修改

@@ -58,3 +58,8 @@ Casbin 的 RBAC 支持 RBAC1 的角色层次结构功能，如果 `alice`具有`
 ## 如何区分用户和角色？
 
 在RBAC中，Casbin不对用户和角色进行区分。 它们都被视为字符串。 如果你只使用单层的RBAC模型（角色不会成为另一个角色的成员）。 可以使用 `e.GetAllSubjects()` 获取所有用户，`e.GetAllRoles()` 获取所有角色。 它们会为规则 `g, u, r` 分别列出所有的 `u` 和 `r`。
+
+
+
+# 总结:
+当前 pycasbin 版本为 0.10.0  不支持 ABAC 模式的 eval 函数,无法解析 policy 策略.咱不能使用

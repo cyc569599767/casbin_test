@@ -1,2 +1,2 @@
-p, common_user, domain01, r.obj.url=='/user' && r.obj.dom=='domain01', edit
+p, common_user, domain01, r.obj.url=='/user' && r.obj.dom=='domain01', GET
 g, test, common_user, domain01

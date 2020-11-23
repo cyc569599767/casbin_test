@@ -13,3 +13,4 @@ auth_api = Api(auth_bp)
 
 # 配置路由和接口类的对应关系
 auth_api.add_resource(Authorities, "/authorities")
+
