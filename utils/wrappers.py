@@ -13,13 +13,14 @@ def check_permission(func):
 
     def wrapper(*args, **kwargs):
         sub = current_user.username  # 已登录用户的用户名
-        dom = request.args.get('user_domain')  # 用户所属域
-        resource_domain = request.args.get("resource_domain") if request.args.get("resource_domain") else "default"
+        dom = request.form.get('user_domain')  # 用户所属域
+        resource_domain = request.form.get("resource_domain") if request.form.get("resource_domain") else "default"
+
         obj = {
             'url': request.path,  # 资源
             'dom': resource_domain  # 资源所属域
         }
-        act = request.args.get("method")  # 操作方法
+        act = request.method  # 操作方法
 
         if not dom:
             dom = ''

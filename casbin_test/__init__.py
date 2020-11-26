@@ -11,18 +11,6 @@ model_file_path = os.path.join(os.getcwd(), 'casbin_test', 'auth', 'casbinmodel.
 policy_file_path = os.path.join(os.getcwd(), 'casbin_test', 'auth', 'policy.csv')
 enforcer = casbin.Enforcer(model_file_path, policy_file_path)
 
-import simpleeval
-
-
-def new_eval(*args):
-    a = simpleeval.SimpleEval()
-    expr = args[0]
-
-    return a.eval(*args)
-
-
-enforcer.add_function('eval', new_eval)
-
 db = SQLAlchemy()
 
 # 必须写在这里,在 db 下方,否则引起循环导入

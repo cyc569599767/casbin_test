@@ -1,2 +1,3 @@
-p, common_user, domain01, r.obj.url=='/user' && r.obj.dom=='domain01', GET
+p, common_user, domain01, r.obj.url=='/authorities' && r.obj.dom=='ddd', POST
+p, common_user, domain01, r.obj.url=='/authorities' && r.obj.dom=='domain01', POST
 g, test, common_user, domain01
